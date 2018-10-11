@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">People Demo</string>
+
+    <string name="error_image_description">Error Image</string>
+    <string name="error_message">Couldn\'t load the data.\nDo you have an active internet connection?</string>
+    <string name="retry">Retry</string>
+    <string name="image_description">Image</string>
+    <string name="age">%d years</string>
+</resources>

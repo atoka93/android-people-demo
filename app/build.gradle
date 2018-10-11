@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        applicationId "net.attilaszabo.peopledemo"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner 'com.github.tmurakami.dexopener.DexOpenerAndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    sourceSets {
+        String sharedTestDir = 'src/sharedTestUtils/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def dependencies = rootProject.ext
+
+    implementation dependencies.kotlinStdlib
+    implementation dependencies.android.androidXAppCompat
+    implementation dependencies.android.androidXLifecycleExtensions
+    implementation dependencies.android.androidXConstraintLayout
+    implementation dependencies.android.androidXRecyclerView
+    implementation dependencies.android.gson
+    implementation dependencies.android.retrofit
+    implementation dependencies.android.retrofitGsonConverter
+    implementation dependencies.android.retrofitRxJavaAdapter
+    implementation dependencies.android.retrofitScalarsConverter
+    implementation dependencies.android.androidXRoom
+    kapt dependencies.android.androidXRoomCompiler
+    implementation dependencies.android.androidXRoomRxJava
+    implementation dependencies.android.rxJava
+    implementation dependencies.android.rxAndroid
+    implementation dependencies.android.rxRelay
+    implementation dependencies.android.glide
+    kapt dependencies.android.glideCompiler
+    implementation dependencies.android.dagger
+    implementation dependencies.android.daggerAndroid
+    implementation dependencies.android.daggerAndroidSupport
+    kapt dependencies.android.daggerCompiler
+    kapt dependencies.android.daggerAndroidCompiler
+
+    testImplementation dependencies.test.jUnit
+    testImplementation dependencies.test.mockito
+    testImplementation dependencies.test.mockitoInline
+    androidTestImplementation dependencies.test.androidXTestRunner
+    androidTestImplementation dependencies.test.androidXEspressoCore
+    androidTestImplementation dependencies.test.androidXEspressoContrib
+    androidTestImplementation dependencies.test.androidXEspressoIntents
+    androidTestImplementation dependencies.test.mockitoAndroid
+    androidTestImplementation dependencies.test.dexOpener
+}

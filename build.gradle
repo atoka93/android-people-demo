@@ -1,0 +1,26 @@
+
+buildscript {
+    ext.kotlinVersion = '1.2.71'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        google()
+        jcenter()
+    }
+}
+
+apply from: 'dependencies.gradle'
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

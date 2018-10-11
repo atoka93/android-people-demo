@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_progress_bar_large">64dp</dimen>
+    <dimen name="text_size_error">16sp</dimen>
+    <dimen name="margin_vertical_error_text_activity_people">24dp</dimen>
+    <dimen name="margin_horizontal_error_text_activity_people">16dp</dimen>
+
+    <dimen name="spacing_grid_divider">2dp</dimen>
+    <dimen name="size_progress_bar_small">48dp</dimen>
+    <dimen name="text_size_item_person">14sp</dimen>
+    <dimen name="margin_bottom_item_person">8dp</dimen>
+    <dimen name="margin_vertical_item_person">10dp</dimen>
+    <dimen name="margin_item_people_error">16dp</dimen>
+    <dimen name="margin_end_retry_people_error">24dp</dimen>
+    <dimen name="margin_item_people_loading">16dp</dimen>
+
+    <dimen name="text_size_fragment_person">30sp</dimen>
+    <dimen name="margin_text_person">24dp</dimen>
+
+    <integer name="span_count_grid">2</integer>
+</resources>
