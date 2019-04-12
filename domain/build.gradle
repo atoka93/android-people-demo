@@ -1,0 +1,16 @@
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.app.kotlin.stdlib
+    implementation deps.app.kotlin.coroutines
+    implementation deps.app.dagger.runtime
+    kapt deps.app.dagger.compiler
+
+    testImplementation deps.testing.jUnit
+    testImplementation deps.testing.mockito.core
+    testImplementation deps.testing.mockito.inline
+}

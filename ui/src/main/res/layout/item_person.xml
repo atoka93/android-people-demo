@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="adapterInteractions"
+            type="net.attilaszabo.peopledemo.ui.people.adapter.IPeopleAdapterInteractions" />
+
+        <variable
+            name="binding"
+            type="androidx.databinding.ViewDataBinding" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="model"
+            type="net.attilaszabo.peopledemo.ui.people.adapter.PeopleAdapter.Companion.PeopleModel.Item" />
+
+        <variable
+            name="loadedListener"
+            type="net.attilaszabo.peopledemo.ui.utils.GlideRequestFinishedListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemPersonConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> adapterInteractions.onPersonClicked(binding, model.person)}">
+
+        <ProgressBar
+            android:id="@+id/itemPersonProgressBar"
+            style="@style/IndeterminateLoadingIndicatorStyle"
+            android:layout_width="@dimen/size_progress_bar_small"
+            android:layout_height="@dimen/size_progress_bar_small"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/itemPersonImageView"
+            style="@style/PersonImageStyle"
+            android:foreground="@color/lightBlackOverlay"
+            android:transitionName="@{position.toString() + model.person.photoUrl}"
+            app:imageUrl="@{model.person.photoUrl}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:loadedListener="@{loadedListener}"
+            tools:ignore="ContentDescription,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/itemPersonNameTextView"
+            style="@style/PersonTextStyle"
+            android:text="@{model.person.name}"
+            android:textSize="@dimen/text_size_item_person"
+            android:transitionName="@{position.toString() + model.person.name}"
+            app:layout_constraintBottom_toTopOf="@+id/itemPersonAgeTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/itemPersonAgeTextView" />
+
+        <TextView
+            android:id="@+id/itemPersonAgeTextView"
+            style="@style/PersonTextStyle"
+            android:layout_marginStart="@dimen/margin_vertical_item_person"
+            android:layout_marginEnd="@dimen/margin_vertical_item_person"
+            android:layout_marginBottom="@dimen/margin_bottom_item_person"
+            android:text="@{String.format(@string/age, model.person.age)}"
+            android:textSize="@dimen/text_size_item_person"
+            android:transitionName="@{position.toString() + model.person.age}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

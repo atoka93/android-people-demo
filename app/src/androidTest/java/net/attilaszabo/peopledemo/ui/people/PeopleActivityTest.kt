@@ -4,12 +4,12 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.runner.AndroidJUnit4
-import io.reactivex.Flowable
-import net.attilaszabo.peopledemo.R
-import net.attilaszabo.peopledemo.TestUtils
+import kotlinx.coroutines.runBlocking
 import net.attilaszabo.peopledemo.domain.Result
 import net.attilaszabo.peopledemo.domain.people.LoadPeopleUseCase
 import net.attilaszabo.peopledemo.mock
+import net.attilaszabo.peopledemo.ui.ActivityWithInjectedViewModelTestRule
+import net.attilaszabo.peopledemo.ui.R
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,26 +19,32 @@ import org.mockito.BDDMockito.given
 class PeopleActivityTest {
 
     private val people = listOf(
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson(),
-        TestUtils.generatePerson()
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson(),
+        DomainTestUtils.generatePerson()
     )
 
     @Rule
     @JvmField
-    val activityTestRule = ActivityWithInjectedViewModelTestRule(PeopleActivity::class.java) {
-        val loadPeopleUseCase: LoadPeopleUseCase = mock()
-        given(loadPeopleUseCase.execute(0, 10)).willReturn(Flowable.just(Result.Success(people)))
-        given(loadPeopleUseCase.execute(10, 10)).willReturn(Flowable.just(Result.Success(people)))
-        PeopleViewModel(loadPeopleUseCase)
-    }
+    val activityTestRule =
+        ActivityWithInjectedViewModelTestRule(PeopleFragment::class.java) {
+            runBlocking {
+                val loadPeopleUseCase: LoadPeopleUseCase = mock()
+                given(loadPeopleUseCase(0, 10)).willReturn(Result.Success(people))
+                given(loadPeopleUseCase(10, 10)).willReturn(Result.Success(people))
+                given(loadPeopleUseCase(20, 10)).willReturn(Result.Success(people))
+                given(loadPeopleUseCase(30, 10)).willReturn(Result.Success(people))
+                given(loadPeopleUseCase(40, 10)).willReturn(Result.Success(people))
+                PeopleViewModel(UiTestUtils.getTestCoroutinesDispatcherProvider(), loadPeopleUseCase)
+            }
+        }
 
     @Test
     fun activityPeopleRecyclerViewIsVisible() {

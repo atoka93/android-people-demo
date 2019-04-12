@@ -2,76 +2,90 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion deps.build.tools.targetSdk
+    buildToolsVersion deps.build.tools.buildTools
 
     defaultConfig {
         applicationId "net.attilaszabo.peopledemo"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner 'com.github.tmurakami.dexopener.DexOpenerAndroidJUnitRunner'
+        minSdkVersion deps.build.tools.minSdk
+        targetSdkVersion deps.build.tools.targetSdk
+        versionCode deps.build.versions.code
+        versionName deps.build.versions.name
+        testInstrumentationRunner "net.attilaszabo.peopledemo.CustomAndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        multiDexEnabled true
     }
 
     androidExtensions {
         experimental = true
     }
 
-    sourceSets {
-        String sharedTestDir = 'src/sharedTestUtils/java'
-        test {
-            java.srcDir sharedTestDir
-        }
-        androidTest {
-            java.srcDir sharedTestDir
-        }
+    dataBinding {
+        enabled = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    def dependencies = rootProject.ext
+    implementation project(':ui')
+    implementation project(':domain')
+    implementation project(':data')
+    implementation project(':datasource_cachedb')
+    implementation project(':datasource_uinames')
 
-    implementation dependencies.kotlinStdlib
-    implementation dependencies.android.androidXAppCompat
-    implementation dependencies.android.androidXLifecycleExtensions
-    implementation dependencies.android.androidXConstraintLayout
-    implementation dependencies.android.androidXRecyclerView
-    implementation dependencies.android.gson
-    implementation dependencies.android.retrofit
-    implementation dependencies.android.retrofitGsonConverter
-    implementation dependencies.android.retrofitRxJavaAdapter
-    implementation dependencies.android.retrofitScalarsConverter
-    implementation dependencies.android.androidXRoom
-    kapt dependencies.android.androidXRoomCompiler
-    implementation dependencies.android.androidXRoomRxJava
-    implementation dependencies.android.rxJava
-    implementation dependencies.android.rxAndroid
-    implementation dependencies.android.rxRelay
-    implementation dependencies.android.glide
-    kapt dependencies.android.glideCompiler
-    implementation dependencies.android.dagger
-    implementation dependencies.android.daggerAndroid
-    implementation dependencies.android.daggerAndroidSupport
-    kapt dependencies.android.daggerCompiler
-    kapt dependencies.android.daggerAndroidCompiler
+    implementation deps.app.kotlin.stdlib
+    implementation deps.app.dagger.runtime
+    kapt deps.app.dagger.compiler
+    implementation deps.app.dagger.android
+    implementation deps.app.dagger.androidSupport
+    kapt deps.app.dagger.androidCompiler
 
-    testImplementation dependencies.test.jUnit
-    testImplementation dependencies.test.mockito
-    testImplementation dependencies.test.mockitoInline
-    androidTestImplementation dependencies.test.androidXTestRunner
-    androidTestImplementation dependencies.test.androidXEspressoCore
-    androidTestImplementation dependencies.test.androidXEspressoContrib
-    androidTestImplementation dependencies.test.androidXEspressoIntents
-    androidTestImplementation dependencies.test.mockitoAndroid
-    androidTestImplementation dependencies.test.dexOpener
+    testImplementation deps.testing.jUnit
+    testImplementation deps.testing.mockito.core
+    testImplementation deps.testing.mockito.inline
+    androidTestImplementation deps.app.androidX.fragment.testing
+    androidTestImplementation deps.app.androidX.architecture.testing
+    androidTestImplementation deps.testing.mockito.android
+    androidTestImplementation deps.testing.dexOpener
+    androidTestImplementation deps.testing.testRunner
+    androidTestImplementation deps.testing.espresso.core
+    androidTestImplementation deps.testing.espresso.contrib
+    androidTestImplementation deps.testing.espresso.intents
+
+    // TODO: get rid of these
+    implementation deps.app.material
+    implementation deps.app.androidX.appCompat
+    implementation deps.app.androidX.constraintLayout
+    implementation deps.app.androidX.room.runtime
+    implementation deps.app.androidX.room.coroutines
+    kapt deps.app.androidX.room.compiler
 }

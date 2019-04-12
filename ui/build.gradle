@@ -1,0 +1,101 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+    compileSdkVersion deps.build.tools.targetSdk
+    defaultConfig {
+        minSdkVersion deps.build.tools.minSdk
+        targetSdkVersion deps.build.tools.targetSdk
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        multiDexEnabled true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    sourceSets {
+        String sharedTestDir = 'src/sharedTestUtils/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':domain')
+    implementation project(':data')
+    implementation project(':datasource_cachedb')
+    implementation project(':datasource_uinames')
+
+    implementation deps.app.kotlin.stdlib
+    implementation deps.app.kotlin.coroutines
+    implementation deps.app.dagger.runtime
+    implementation deps.app.dagger.android
+    implementation deps.app.dagger.androidSupport
+    kapt deps.app.dagger.androidCompiler
+    kapt deps.app.dagger.compiler
+    implementation deps.app.material
+    implementation deps.app.androidX.appCompat
+    implementation deps.app.androidX.constraintLayout
+    implementation deps.app.androidX.recyclerView
+    implementation deps.app.androidX.recyclerViewSelection
+    implementation deps.app.androidX.cardView
+    implementation deps.app.androidX.coreKtx
+    implementation deps.app.androidX.fragment.runtime
+    implementation deps.app.androidX.fragment.runtimeKtx
+    implementation deps.app.androidX.architecture.common
+    implementation deps.app.androidX.architecture.runtime
+    implementation deps.app.androidX.lifecycle.runtime
+    implementation deps.app.androidX.lifecycle.extensions
+    implementation deps.app.androidX.lifecycle.java8
+    kapt deps.app.androidX.lifecycle.compiler
+    implementation deps.app.androidX.navigation.runtime
+    implementation deps.app.androidX.navigation.runtimeKtx
+    implementation deps.app.androidX.navigation.fragment
+    implementation deps.app.androidX.navigation.fragmentKtx
+    implementation deps.app.androidX.navigation.ui
+    implementation deps.app.androidX.navigation.uiKtx
+    implementation deps.app.glide.runtime
+    kapt deps.app.glide.compiler
+    implementation deps.app.picasso
+
+    implementation deps.app.androidX.room.runtime
+    implementation deps.app.androidX.room.coroutines
+    kapt deps.app.androidX.room.compiler
+    implementation deps.app.gson
+}

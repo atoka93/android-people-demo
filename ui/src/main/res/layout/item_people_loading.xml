@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data/>
+
+    <ProgressBar
+        android:id="@+id/itemPeopleLoadingProgressBar"
+        style="@style/IndeterminateLoadingIndicatorStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_progress_bar_large"
+        android:layout_marginTop="@dimen/margin_item_people_loading"
+        android:layout_marginBottom="@dimen/margin_item_people_loading" />
+</layout>

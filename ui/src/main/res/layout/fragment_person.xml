@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="net.attilaszabo.peopledemo.ui.person.PersonViewModel" />
+
+        <variable
+            name="requestOptions"
+            type="com.bumptech.glide.request.RequestOptions" />
+
+        <variable
+            name="loadedListener"
+            type="net.attilaszabo.peopledemo.ui.utils.GlideRequestFinishedListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragmentPersonConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/fragmentPersonImageView"
+            style="@style/PersonImageStyle"
+            android:transitionName="picture"
+            app:imageUrl="@{viewModel.imageUrl}"
+            app:loadedListener="@{loadedListener}"
+            app:requestOptions="@{requestOptions}"
+            tools:ignore="ContentDescription,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/fragmentPersonNameTextView"
+            style="@style/PersonTextStyle"
+            android:text="@{viewModel.name}"
+            android:textSize="@dimen/text_size_fragment_person"
+            android:textStyle="bold"
+            android:transitionName="name"
+            app:layout_constraintBottom_toTopOf="@+id/fragmentPersonAgeTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/fragmentPersonAgeTextView" />
+
+        <TextView
+            android:id="@+id/fragmentPersonAgeTextView"
+            style="@style/PersonTextStyle"
+            android:text="@{String.format(@string/age, viewModel.age)}"
+            android:textSize="@dimen/text_size_fragment_person"
+            android:transitionName="age"
+            app:layout_constraintBottom_toTopOf="@+id/fragmentPersonRegionTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/fragmentPersonRegionTextView" />
+
+        <TextView
+            android:id="@+id/fragmentPersonRegionTextView"
+            style="@style/PersonTextStyle"
+            android:layout_marginStart="@dimen/margin_text_person"
+            android:layout_marginEnd="@dimen/margin_text_person"
+            android:layout_marginBottom="@dimen/margin_text_person"
+            android:text="@{viewModel.region}"
+            android:textSize="@dimen/text_size_fragment_person"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

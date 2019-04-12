@@ -1,25 +1,22 @@
 
 buildscript {
-    ext.kotlinVersion = '1.2.71'
+    apply from: 'dependencies.gradle'
+    addRepositories(repositories)
+    dependencies {
+        classpath deps.build.gradle.android
+        classpath deps.build.gradle.kotlin
+        classpath deps.build.gradle.navigationSafeArgs
+    }
     repositories {
         google()
-        jcenter()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
 allprojects {
     repositories {
-        maven { url 'https://jitpack.io' }
-        google()
-        jcenter()
+        addRepositories(repositories)
     }
 }
-
-apply from: 'dependencies.gradle'
 
 task clean(type: Delete) {
     delete rootProject.buildDir

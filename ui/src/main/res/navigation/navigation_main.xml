@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@+id/peopleFragment">
+
+    <fragment
+        android:id="@+id/peopleFragment"
+        android:name="net.attilaszabo.peopledemo.ui.people.PeopleFragment"
+        android:label="fragment_people"
+        tools:layout="@layout/fragment_people">
+
+        <action
+            android:id="@+id/detailsAction"
+            app:destination="@+id/personFragment"
+            app:enterAnim="@anim/delayed_fade_in"
+            app:exitAnim="@anim/delayed_fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/personFragment"
+        android:name="net.attilaszabo.peopledemo.ui.person.PersonFragment"
+        android:label="fragment_person"
+        tools:layout="@layout/fragment_person">
+
+        <argument
+            android:name="person"
+            app:argType="net.attilaszabo.peopledemo.domain.people.Person" />
+    </fragment>
+</navigation>
